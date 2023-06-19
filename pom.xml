@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <modules>
+        <module>java-path-core-revision</module>
+    </modules>
+
+    <groupId>gr.codelearn</groupId>
+    <artifactId>java-path-spring-nbg-showcase</artifactId>
+    <version>2023.1.0</version>
+
+    <properties>
+        <!-- Desired Maven version -->
+        <maven.version>3.8</maven.version>
+        <!-- Build JDK -->
+        <java.version>17</java.version>
+        <!-- Maven source encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Library versions-->
+        <log4j2.version>2.18.0</log4j2.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <disruptor.version>3.4.4</disruptor.version>
+    </properties>
+
+    <!-- Meta-data -->
+    <name>[${project.artifactId}]</name>
+    <description>Java Learning @ Development Path, Spring Path module</description>
+    <organization>
+        <name>Code.Learn by Code.Hub</name>
+        <url>https://www.codehub.gr/codelearn/</url>
+    </organization>
+    <inceptionYear>2021</inceptionYear>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--
+            Due to a break in compatibility in the SLF4J binding, as of Log4J2 release 2.11.1, we need to
+            use the following plugin in case of Java 1.8 or greater.
+
+            Log4j API and Core implementation along with Slf4j libraries required are implicit
+            dependencies.
+            -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j18-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <!--
+            This is to stop receiving errors about failing to load class "org.slf4j.impl.StaticLoggerBinder"
+            -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!--
+            Asynchronous Logging @see https://logging.apache.org/log4j/2.x/manual/async.html
+            Hint:
+            Don't forget to set system property
+            -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+             to make all loggers asynchronous
+            -->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.28</version>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j18-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
