@@ -5,6 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>java-path-core-recap</module>
+    </modules>
+
     <groupId>gr.codelearn</groupId>
     <artifactId>java-path-spring-nbg-showcase</artifactId>
     <version>2023.1.0</version>
