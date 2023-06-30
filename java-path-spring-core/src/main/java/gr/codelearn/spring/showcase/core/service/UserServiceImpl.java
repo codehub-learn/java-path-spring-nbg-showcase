@@ -1,31 +1,34 @@
 package gr.codelearn.spring.showcase.core.service;
 
-import gr.codelearn.spring.showcase.core.base.BaseComponent;
 import gr.codelearn.spring.showcase.core.domain.User;
+import gr.codelearn.spring.showcase.core.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl extends BaseComponent implements UserService {
+@RequiredArgsConstructor
+public class UserServiceImpl extends BaseServiceImpl implements UserService {
+	private final UserRepository userRepository;
+
 	@Override
-	public boolean register(final User user) {
-		logger.debug("Created {}.", user);
-		return true;
+	public boolean register(User user) {
+		return userRepository.save(user);
 	}
 
 	@Override
 	public List<User> getUsers() {
-		return null;
+		return userRepository.getUsers();
 	}
 
 	@Override
-	public User getUser(final Long id) {
-		return null;
+	public User getUser(Long id) {
+		return userRepository.getUser(id);
 	}
 
 	@Override
-	public User getUser(final String email) {
-		return null;
+	public User getUser(String username) {
+		return userRepository.getUser(username);
 	}
 }

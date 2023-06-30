@@ -15,6 +15,6 @@ public abstract class BaseComponent {
 
 	@PreDestroy
 	private void destroy() {
-		logger.trace("{} is shutting down.", getClass().getName());
+		logger.trace("Unloading {}.", getClass().getName());
 	}
 }
