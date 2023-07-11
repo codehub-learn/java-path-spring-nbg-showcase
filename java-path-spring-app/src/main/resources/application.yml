@@ -35,11 +35,13 @@ spring:
         properties:
           hibernate:
               connection:
+                  #https://vladmihalcea.com/spring-transaction-connection-management
                   provider_disables_autocommit: true #requires hikari's autocommit to be false
               order_inserts: true
               jdbc:
                   batch_size: 100
               format_sql: true
+              #for the following two configurations: https://thorben-janssen.com/hibernate-features-with-spring-data-jpa/
               generate_statistics: true # not a production setting
               session:
                   events:
@@ -48,6 +50,7 @@ spring:
               order_updates: true
               batch_versioned_data: true
               query:
+                  #https://thorben-janssen.com/parameter-padding/
                   in_clause_parameter_padding: true
     sql:
         init: #data.sql OR schema.sql
