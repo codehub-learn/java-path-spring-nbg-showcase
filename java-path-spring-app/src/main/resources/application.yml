@@ -1,0 +1,61 @@
+spring:
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:file:~/.h2/internal/eshop;IFEXISTS=FALSE;AUTO_SERVER=TRUE;
+        type: com.zaxxer.hikari.HikariDataSource
+        hikari:
+            username: sa
+            password: sa
+            auto-commit: true
+            connection-test-query: select 1 from dual
+            connection-timeout: 10000
+            idle-timeout: 30000
+            max-lifetime: 60000
+            maximum-pool-size: 10
+            minimum-idle: 1
+            pool-name: eshopConnectionPooling
+            transaction-isolation: TRANSACTION_READ_COMMITTED
+            data-source-properties:
+                cachePrepStmts: true
+                prepStmtCacheSize: 250
+                prepStmtCacheSqlLimit: 2048
+    h2:
+        console:
+            enabled: true
+            path: /h2-console
+    jpa:
+        open-in-view: false #todo explain
+        generate-ddl: true
+        hibernate:
+            ddl-auto: create
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        show-sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        properties:
+          hibernate:
+              connection:
+                  provider_disables_autocommit: true #requires hikari's autocommit to be false
+              order_inserts: true
+              jdbc:
+                  batch_size: 100
+              format_sql: true
+              generate_statistics: true # not a production setting
+              session:
+                  events:
+                      log:
+                        LOG_QUERIES_SLOWER_THAN_MS: 10
+              order_updates: true
+              batch_versioned_data: true
+              query:
+                  in_clause_parameter_padding: true
+    sql:
+        init: #data.sql OR schema.sql
+            mode: never
+            platform: h2 # data-h2.sql, data-oracle.sql
+    data:
+      jpa:
+        repositories:
+            enabled: true
+            bootstrap-mode: default
+
