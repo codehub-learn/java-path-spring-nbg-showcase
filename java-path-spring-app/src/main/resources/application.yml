@@ -6,7 +6,7 @@ spring:
         hikari:
             username: sa
             password: sa
-            auto-commit: true
+            auto-commit: false
             connection-test-query: select 1 from dual
             connection-timeout: 10000
             idle-timeout: 30000
