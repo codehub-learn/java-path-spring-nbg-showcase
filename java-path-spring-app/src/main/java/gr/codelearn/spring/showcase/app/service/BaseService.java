@@ -1,5 +1,7 @@
 package gr.codelearn.spring.showcase.app.service;
 
+import gr.codelearn.spring.showcase.app.model.Product;
+
 import java.util.List;
 
 public interface BaseService<T, ID> {

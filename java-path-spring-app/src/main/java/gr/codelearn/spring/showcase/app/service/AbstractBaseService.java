@@ -1,15 +1,17 @@
 package gr.codelearn.spring.showcase.app.service;
 
+import gr.codelearn.spring.showcase.app.base.BaseComponent;
 import gr.codelearn.spring.showcase.app.model.BaseEntity;
 import gr.codelearn.spring.showcase.app.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class) //phantom reads, committed changes, range queries
-public abstract class AbstractBaseService<T extends BaseEntity> implements BaseService<T, Long>{
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+public abstract class AbstractBaseService<T extends BaseEntity> extends BaseComponent implements BaseService<T, Long>{
 
 	protected abstract JpaRepository<T, Long> getRepository();
 
