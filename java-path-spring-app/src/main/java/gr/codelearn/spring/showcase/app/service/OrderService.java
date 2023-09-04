@@ -21,13 +21,11 @@ public interface OrderService extends BaseService<Order, Long> {
 
 	Order checkout(Order order, PaymentMethod paymentMethod);
 
-	Order getLazyById(Long id);
+	Order getLazy(Long id);
 
-	List<Order> findAllLazy();
-
-	List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer();
+	List<Order> findAll();
 
 	List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory();
 
-	PurchasesPerCustomerCategoryDto exampleQuery();
+	List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer();
 }

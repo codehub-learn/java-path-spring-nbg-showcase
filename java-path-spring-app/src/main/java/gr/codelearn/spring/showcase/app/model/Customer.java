@@ -2,37 +2,30 @@ package gr.codelearn.spring.showcase.app.model;
 
 import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@NamedQuery(name = "customersByCustomerCategories", query = "SELECT c FROM Customer c WHERE c.customerCategory IN :customerCategories")
-@NamedNativeQuery(
-		name = "purchasedMostExpensiveProduct",
+//@formatter:off
+@NamedNativeQuery(name = "Customer.purchasedMostExpensiveProduct",
 		query =
-				"SELECT C.FIRSTNAME || ' ' || C.LASTNAME as fullname, COUNT(*) as purchases " +
-						"FROM ORDERS O, ORDERITEM OI, CUSTOMER C " +
-						"WHERE OI.ORDER_ID = O.ID " +
-						"AND O.CUSTOMER_ID = C.ID " +
-						"AND OI.PRODUCT_ID = (SELECT TOP 1 ID FROM PRODUCT ORDER BY PRICE DESC) " +
-						"GROUP BY O.CUSTOMER_ID " +
-						"ORDER BY purchases, c.lastname, c.firstname",
-		resultSetMapping = "purchasedMostExpensiveProductResultSetMapping"
-)
-@SqlResultSetMapping(
-		name = "purchasedMostExpensiveProductResultSetMapping",
+		"SELECT C.FIRSTNAME || ' ' || C.LASTNAME as fullname, COUNT(*) as purchases " +
+		"FROM ORDERS O, ORDER_ITEMS OI, CUSTOMERS C " +
+		"WHERE OI.ORDER_ID = O.ID " +
+		"AND O.CUSTOMER_ID = C.ID " +
+		"AND OI.PRODUCT_ID = (SELECT TOP 1 ID FROM PRODUCTS ORDER BY PRICE DESC) " +
+		"GROUP BY O.CUSTOMER_ID " +
+		"ORDER BY purchases, c.lastname, c.firstname",
+		resultSetMapping = "CustomersPurchasedMostExpensiveProduct")
+@SqlResultSetMapping(name = "CustomersPurchasedMostExpensiveProduct",
 		classes = @ConstructorResult(
 				targetClass = KeyValue.class,
 				columns = {
@@ -41,25 +34,40 @@ import lombok.NoArgsConstructor;
 				}
 		)
 )
-@Table(indexes = {@Index(columnList = "email")})
-@SequenceGenerator(name = "idGenerator", sequenceName = "Customer_Seq", initialValue = 1, allocationSize = 1)
-public class Customer extends BaseEntity{
+//@formatter:on
+
+@Getter
+@Setter
+@ToString(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "CUSTOMERS", indexes = {@Index(columnList = "email")})
+@SequenceGenerator(name = "idGenerator", sequenceName = "CUSTOMERS_SEQ", initialValue = 1, allocationSize = 1)
+public class Customer extends BaseModel {
     @NotNull(message = "{email.null}")
-    @Email(message = "{email.format}")
-	@Column(unique = true)
+	@Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "{email.format}")
+	@Column(length = 50, nullable = false, unique = true)
     private String email;
+
     @NotNull(message = "{firstname.null}")
-    //@Pattern(regexp = ".")
-    @NotBlank // cannot save if: null, "", "    "
+	@Column(length = 20, nullable = false)
     private String firstname;
+
     @NotNull(message = "{lastname.null}")
+	@Column(length = 30, nullable = false)
     private String lastname;
-    //@Transient
-    @Min(value = 18, message = "{age.min}")
-    @Max(value = 110, message = "{age.max}")
+
+	@Min(value = 12, message = "{age.min}")
+	@Max(value = 120, message = "{age.max}")
     private Integer age;
+
+	@Column(length = 50)
     @Size(max = 50, message = "{address.length}")
     private String address;
-    @Enumerated(EnumType.STRING)
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = 10, nullable = false)
     private CustomerCategory customerCategory;
 }

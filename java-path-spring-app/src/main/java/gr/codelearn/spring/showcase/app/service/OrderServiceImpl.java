@@ -16,25 +16,24 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class OrderServiceImpl extends AbstractBaseService<Order> implements OrderService {
-
+@Transactional(readOnly = true)
+public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderService {
 	private final OrderRepository orderRepository;
 
 	@Override
-	protected JpaRepository<Order, Long> getRepository() {
+	public JpaRepository<Order, Long> getRepository() {
 		return orderRepository;
 	}
 
 	@Override
 	public Order initiateOrder(Customer customer) {
-		return Order.builder().customer(customer).orderItems(new ArrayList<>()).build();
+		return Order.builder().customer(customer).build();
 	}
 
 	@Override
@@ -85,45 +84,33 @@ public class OrderServiceImpl extends AbstractBaseService<Order> implements Orde
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,
+				   rollbackFor = Exception.class)
 	public Order checkout(Order order, PaymentMethod paymentMethod) {
 		if (!validate(order)) {
 			logger.warn("Order should have customer, order items, and payment type defined before being able to " +
-								"checkout the order.");
+						"checkout the order.");
 			return null;
 		}
 
 		// Set all order fields with proper values
 		order.setPaymentMethod(paymentMethod);
 		order.setSubmitDate(new Date());
-		order.setTotalCost(giveDiscounts(order));
+		order.setCost(giveDiscounts(order));
 
 		return create(order);
 	}
 
 	@Override
-	public Order getLazyById(final Long id) {
-		return orderRepository.findLazyById(id).orElse(null);
+	public Order getLazy(Long id) {
+		return orderRepository.getLazy(id)
+							  .orElseThrow(() -> new NoSuchElementException(
+									  String.format("There was no order found matching id %d.", id)));
 	}
 
 	@Override
-	public List<Order> findAllLazy() {
+	public List<Order> findAll() {
 		return orderRepository.findAllLazy();
-	}
-
-	@Override
-	public List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer() {
-		return orderRepository.findAverageOrderCostPerCustomer();
-	}
-
-	@Override
-	public List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory() {
-		return orderRepository.findTotalNumberAndCostOfPurchasesPerCustomerCategory();
-	}
-
-	@Override
-	public PurchasesPerCustomerCategoryDto exampleQuery() {
-		return orderRepository.exampleQuery();
 	}
 
 	private boolean checkNullability(Order order, Product product) {
@@ -138,12 +125,12 @@ public class OrderServiceImpl extends AbstractBaseService<Order> implements Orde
 		return false;
 	}
 
-	private OrderItem newOrderItem(Order order, Product product, int quantity) {
-		return OrderItem.builder().product(product).order(order).quantity(quantity).price(product.getPrice()).build();
-	}
-
 	private boolean validate(Order order) {
 		return order != null && !order.getOrderItems().isEmpty() && order.getCustomer() != null;
+	}
+
+	private OrderItem newOrderItem(Order order, Product product, int quantity) {
+		return OrderItem.builder().product(product).order(order).quantity(quantity).price(product.getPrice()).build();
 	}
 
 	private BigDecimal giveDiscounts(Order order) {
@@ -151,11 +138,10 @@ public class OrderServiceImpl extends AbstractBaseService<Order> implements Orde
 				order.getCustomer().getCustomerCategory().getDiscount() + order.getPaymentMethod().getDiscount();
 
 		// Calculate original order cost
-		//@formatter:off
-		BigDecimal originalCost = order.getOrderItems().stream()
+		BigDecimal originalCost = order.getOrderItems()
+									   .stream()
 									   .map(oi -> oi.getPrice().multiply(BigDecimal.valueOf(oi.getQuantity())))
 									   .reduce(BigDecimal.ZERO, BigDecimal::add);
-		//@formatter:on
 
 		// Apply discount
 		BigDecimal finalCost = originalCost.multiply(BigDecimal.valueOf(1f - totalDiscount));
@@ -166,5 +152,13 @@ public class OrderServiceImpl extends AbstractBaseService<Order> implements Orde
 		return finalCost;
 	}
 
+	@Override
+	public List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory() {
+		return orderRepository.findTotalNumberAndCostOfPurchasesPerCustomerCategory();
+	}
 
+	@Override
+	public List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer() {
+		return orderRepository.findAverageOrderCostPerCustomer();
+	}
 }

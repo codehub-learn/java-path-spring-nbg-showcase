@@ -7,15 +7,10 @@ import gr.codelearn.spring.showcase.app.model.PaymentMethod;
 import gr.codelearn.spring.showcase.app.service.CustomerService;
 import gr.codelearn.spring.showcase.app.service.OrderService;
 import gr.codelearn.spring.showcase.app.service.ProductService;
-import gr.codelearn.spring.showcase.app.transfer.KeyValue;
-import gr.codelearn.spring.showcase.app.transfer.PurchasesPerCustomerCategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Component
 @Profile("generate-orders")
@@ -85,28 +80,71 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
 		// Checkout 4th order
 		orderService.checkout(fourthOrder, PaymentMethod.CREDIT_CARD);
 
-		final Order order = orderService.getLazyById(2L);
-		logger.info("testtest{}", order.getOrderItems());
+		// **** SOME EXTRA ORDERS FOR SHOWCASING WITHIN THE APPLICATION **** //
+		// customer and order
+		Customer c5 = customerService.get(5L);
+		Order o5 = orderService.initiateOrder(c5);
+		// Add item(s) to order
+		orderService.addItem(o5, productService.findBySerial("SN1000-0002"), 4);
+		orderService.addItem(o5, productService.findBySerial("SN1200-0001"), 2);
+		orderService.addItem(o5, productService.findBySerial("SN1200-0001"), 1);
+		// Checkout order
+		orderService.checkout(o5, PaymentMethod.WIRE_TRANSFER);
 
-		final List<KeyValue<String, BigDecimal>> averageOrderCostPerCustomer = orderService.findAverageOrderCostPerCustomer();
-		for (final KeyValue<String, BigDecimal> stringBigDecimalKeyValue : averageOrderCostPerCustomer) {
-			logger.info("Customer/Average Cost: {}", stringBigDecimalKeyValue);
-		}
+		// customer and order
+		Customer c6 = customerService.get(6L);
+		Order o6 = orderService.initiateOrder(c6);
+		// Add item(s) to order
+		orderService.addItem(o6, productService.findBySerial("SN1200-0001"), 2);
+		// Checkout order
+		orderService.checkout(o6, PaymentMethod.CREDIT_CARD);
 
-		final List<PurchasesPerCustomerCategoryDto> totalNumberAndCostOfPurchasesPerCustomerCategory = orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory();
-		for (final PurchasesPerCustomerCategoryDto purchasesPerCustomerCategoryDto : totalNumberAndCostOfPurchasesPerCustomerCategory) {
-			logger.info("category: {}, purchases: {}, cost {}", purchasesPerCustomerCategoryDto.getCategory(),
-						purchasesPerCustomerCategoryDto.getPurchases(), purchasesPerCustomerCategoryDto.getCost());
-		}
+		// customer and order
+		Customer c7 = customerService.get(7L);
+		Order o7 = orderService.initiateOrder(c7);
+		// Add item(s) to order
+		orderService.addItem(o7, productService.findBySerial("SN1000-0002"), 4);
+		orderService.addItem(o7, productService.findBySerial("SN1200-0001"), 1);
+		// Checkout order
+		orderService.checkout(o7, PaymentMethod.CREDIT_CARD);
 
-		final PurchasesPerCustomerCategoryDto exampleQuery = orderService.exampleQuery();
-		logger.info("category: {}, purchases: {}, cost {}", exampleQuery.getCategory(),
-					exampleQuery.getPurchases(), exampleQuery.getCost());
+		// customer and order
+		Customer c8 = customerService.get(8L);
+		Order o8 = orderService.initiateOrder(c8);
+		// Add item(s) to order
+		orderService.addItem(o8, productService.findBySerial("SN1000-0002"), 1);
+		orderService.addItem(o8, productService.findBySerial("SN1200-0001"), 1);
+		orderService.addItem(o8, productService.findBySerial("SN1200-0001"), 1);
+		// Checkout order
+		orderService.checkout(o8, PaymentMethod.WIRE_TRANSFER);
 
-		final List<KeyValue<String, Long>> mostExpensiveProductPerCustomer =
-				customerService.purchasedMostExpensiveProduct();
-		for (final KeyValue<String, Long> stringLongKeyValue : mostExpensiveProductPerCustomer) {
-			logger.info("{}", stringLongKeyValue);
-		}
+		// customer and order
+		Customer c9 = customerService.get(9L);
+		Order o9 = orderService.initiateOrder(c9);
+		// Add item(s) to order
+		orderService.addItem(o9, productService.findBySerial("SN1200-0001"), 1);
+		// Checkout order
+		orderService.checkout(o9, PaymentMethod.WIRE_TRANSFER);
+
+		// customer and order
+		Customer c10 = customerService.get(10L);
+		Order o10 = orderService.initiateOrder(c10);
+		// Add item(s) to order
+		orderService.addItem(o10, productService.findBySerial("SN1200-0001"), 3);
+		// Checkout order
+		orderService.checkout(o10, PaymentMethod.CREDIT_CARD);
+
+		// REPORTS
+		logger.info("REPORT: Displaying average order cost per customer");
+		orderService.findAverageOrderCostPerCustomer().forEach(i -> logger.info("{}", i));
+
+		logger.info("REPORT: Displaying customers who purchased the most expensive product and how many times");
+		customerService.findCustomersPurchasedMostExpensiveProduct().forEach(i -> logger.info("{}", i));
+
+		logger.info("REPORT: Displaying total number of purchases and corresponding cost per customer category");
+		orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory().forEach(
+				i -> logger.info("{} was purchased {} times costing {}.", i.getCategory(), i.getPurchases(),
+								 i.getCost()));
+
 	}
 }

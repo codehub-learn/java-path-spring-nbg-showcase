@@ -1,32 +1,46 @@
 package gr.codelearn.spring.showcase.app.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
-@Entity
+@Getter
+@Setter
+@ToString(callSuper = true)
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
-@SequenceGenerator(name = "idGenerator", sequenceName = "OrderItem_Seq", initialValue = 1, allocationSize = 1)
-public class OrderItem extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
+@AllArgsConstructor
+@Entity
+@Table(name = "ORDER_ITEMS")
+@SequenceGenerator(name = "idGenerator", sequenceName = "ORDER_ITEMS_SEQ", initialValue = 1, allocationSize = 1)
+public class OrderItem extends BaseModel {
+	@ToString.Exclude
     @NotNull
-    private Order order;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Product product;
+
+	@ToString.Exclude
     @NotNull
-    private BigDecimal price;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private Order order;
+
     @NotNull
+	@Column(nullable = false)
     private Integer quantity;
+
+	@NotNull
+	@Column(precision = 10, scale = 2, nullable = false)
+	private BigDecimal price;
 }
