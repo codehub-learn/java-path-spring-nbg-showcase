@@ -22,7 +22,7 @@ import lombok.ToString;
 @Table(name = "CATEGORIES")
 @SequenceGenerator(name = "idGenerator", sequenceName = "CATEGORIES_SEQ", initialValue = 1, allocationSize = 1)
 public class Category extends BaseModel {
-    @NotNull
+	@NotNull
 	@Column(length = 50, nullable = false)
-    private String description;
+	private String description;
 }

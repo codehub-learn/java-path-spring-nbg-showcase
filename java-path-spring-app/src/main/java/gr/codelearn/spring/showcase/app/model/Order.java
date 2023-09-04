@@ -27,11 +27,11 @@ import java.util.Set;
 public class Order extends BaseModel {
 	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Customer customer;
+	private Customer customer;
 
-    @Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-    private Date submitDate;
+	private Date submitDate;
 
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
@@ -39,10 +39,10 @@ public class Order extends BaseModel {
 	//@Fetch(FetchMode.JOIN) // Just to remember its existence
 	private final Set<OrderItem> orderItems = new HashSet<>();
 
-    @NotNull
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(length = 15, nullable = false)
-    private PaymentMethod paymentMethod;
+	private PaymentMethod paymentMethod;
 
 	@NotNull
 	@Column(precision = 10, scale = 2, nullable = false)

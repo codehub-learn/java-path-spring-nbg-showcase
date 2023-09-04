@@ -46,28 +46,28 @@ import lombok.ToString;
 @Table(name = "CUSTOMERS", indexes = {@Index(columnList = "email")})
 @SequenceGenerator(name = "idGenerator", sequenceName = "CUSTOMERS_SEQ", initialValue = 1, allocationSize = 1)
 public class Customer extends BaseModel {
-    @NotNull(message = "{email.null}")
+	@NotNull(message = "{email.null}")
 	@Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "{email.format}")
 	@Column(length = 50, nullable = false, unique = true)
-    private String email;
+	private String email;
 
-    @NotNull(message = "{firstname.null}")
+	@NotNull(message = "{firstname.null}")
 	@Column(length = 20, nullable = false)
-    private String firstname;
+	private String firstname;
 
-    @NotNull(message = "{lastname.null}")
+	@NotNull(message = "{lastname.null}")
 	@Column(length = 30, nullable = false)
-    private String lastname;
+	private String lastname;
 
 	@Min(value = 12, message = "{age.min}")
 	@Max(value = 120, message = "{age.max}")
-    private Integer age;
+	private Integer age;
 
 	@Column(length = 50)
-    @Size(max = 50, message = "{address.length}")
-    private String address;
+	@Size(max = 50, message = "{address.length}")
+	private String address;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10, nullable = false)
-    private CustomerCategory customerCategory;
+	private CustomerCategory customerCategory;
 }
