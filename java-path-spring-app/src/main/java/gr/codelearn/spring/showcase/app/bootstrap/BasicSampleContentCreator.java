@@ -19,11 +19,11 @@ import java.util.List;
 @Component
 @Profile("generate-catalog-customers")
 @RequiredArgsConstructor
-public class BasicSampleContentCreator extends BaseComponent implements CommandLineRunner  {
-
+public class BasicSampleContentCreator extends BaseComponent implements CommandLineRunner {
 	private final ProductService productService;
 	private final CategoryService categoryService;
 	private final CustomerService customerService;
+
 	@Override
 	public void run(final String... args) throws Exception {
 		Category newCategory = categoryService.create(Category.builder().description("Mobile Phones").build());

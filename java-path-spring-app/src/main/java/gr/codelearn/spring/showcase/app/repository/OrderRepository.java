@@ -41,15 +41,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   """)
 	List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer();
 
-	@Query(value = """
-				   SELECT C.CUSTOMERCATEGORY AS category, COUNT(O.*) AS purchases, SUM(O.COST) AS cost
-				   FROM ORDERS O, CUSTOMERS C
-				   WHERE O.CUSTOMER_ID = C.ID
-				   GROUP BY C.CUSTOMERCATEGORY
-				   """,
-		   nativeQuery = true)
+	@Query(nativeQuery = true)
 	List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory();
 
-	@Query(name = "findTotalNumberAndCostOfPurchasesPerCustomerCategory", nativeQuery = true)
-	List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory2();
+	//Use @Modifying in case the query modifies information e.g. insert, update, upsert commands
 }
