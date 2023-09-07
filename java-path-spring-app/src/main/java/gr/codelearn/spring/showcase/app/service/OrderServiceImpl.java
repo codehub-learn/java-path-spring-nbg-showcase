@@ -1,10 +1,10 @@
 package gr.codelearn.spring.showcase.app.service;
 
-import gr.codelearn.spring.showcase.app.model.Customer;
-import gr.codelearn.spring.showcase.app.model.Order;
-import gr.codelearn.spring.showcase.app.model.OrderItem;
-import gr.codelearn.spring.showcase.app.model.PaymentMethod;
-import gr.codelearn.spring.showcase.app.model.Product;
+import gr.codelearn.spring.showcase.app.domain.Customer;
+import gr.codelearn.spring.showcase.app.domain.Order;
+import gr.codelearn.spring.showcase.app.domain.OrderItem;
+import gr.codelearn.spring.showcase.app.domain.PaymentMethod;
+import gr.codelearn.spring.showcase.app.domain.Product;
 import gr.codelearn.spring.showcase.app.repository.OrderRepository;
 import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 import gr.codelearn.spring.showcase.app.transfer.PurchasesPerCustomerCategoryDto;

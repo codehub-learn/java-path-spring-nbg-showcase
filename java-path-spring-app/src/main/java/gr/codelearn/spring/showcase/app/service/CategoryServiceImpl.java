@@ -1,6 +1,6 @@
 package gr.codelearn.spring.showcase.app.service;
 
-import gr.codelearn.spring.showcase.app.model.Category;
+import gr.codelearn.spring.showcase.app.domain.Category;
 import gr.codelearn.spring.showcase.app.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;

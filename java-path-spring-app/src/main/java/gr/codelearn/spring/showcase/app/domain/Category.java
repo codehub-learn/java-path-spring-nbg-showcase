@@ -1,4 +1,4 @@
-package gr.codelearn.spring.showcase.app.model;
+package gr.codelearn.spring.showcase.app.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

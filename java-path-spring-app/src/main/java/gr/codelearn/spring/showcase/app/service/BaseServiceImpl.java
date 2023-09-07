@@ -1,7 +1,7 @@
 package gr.codelearn.spring.showcase.app.service;
 
 import gr.codelearn.spring.showcase.app.base.BaseComponent;
-import gr.codelearn.spring.showcase.app.model.BaseModel;
+import gr.codelearn.spring.showcase.app.domain.BaseModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;

@@ -1,6 +1,6 @@
 package gr.codelearn.spring.showcase.app.service;
 
-import gr.codelearn.spring.showcase.app.model.Product;
+import gr.codelearn.spring.showcase.app.domain.Product;
 
 public interface ProductService extends BaseService<Product, Long> {
 	Product create(final Product product, Long categoryId);

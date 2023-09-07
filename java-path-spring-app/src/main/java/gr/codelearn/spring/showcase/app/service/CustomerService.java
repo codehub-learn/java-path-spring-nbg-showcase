@@ -1,6 +1,6 @@
 package gr.codelearn.spring.showcase.app.service;
 
-import gr.codelearn.spring.showcase.app.model.Customer;
+import gr.codelearn.spring.showcase.app.domain.Customer;
 import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 
 import java.math.BigDecimal;

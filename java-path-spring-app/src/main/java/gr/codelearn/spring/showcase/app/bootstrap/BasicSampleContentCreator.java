@@ -1,10 +1,10 @@
 package gr.codelearn.spring.showcase.app.bootstrap;
 
 import gr.codelearn.spring.showcase.app.base.BaseComponent;
-import gr.codelearn.spring.showcase.app.model.Category;
-import gr.codelearn.spring.showcase.app.model.Customer;
-import gr.codelearn.spring.showcase.app.model.CustomerCategory;
-import gr.codelearn.spring.showcase.app.model.Product;
+import gr.codelearn.spring.showcase.app.domain.Category;
+import gr.codelearn.spring.showcase.app.domain.Customer;
+import gr.codelearn.spring.showcase.app.domain.CustomerCategory;
+import gr.codelearn.spring.showcase.app.domain.Product;
 import gr.codelearn.spring.showcase.app.service.CategoryService;
 import gr.codelearn.spring.showcase.app.service.CustomerService;
 import gr.codelearn.spring.showcase.app.service.ProductService;

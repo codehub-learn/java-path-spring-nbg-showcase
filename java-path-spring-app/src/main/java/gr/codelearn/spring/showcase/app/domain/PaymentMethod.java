@@ -1,4 +1,4 @@
-package gr.codelearn.spring.showcase.app.model;
+package gr.codelearn.spring.showcase.app.domain;
 
 public enum PaymentMethod {
 	WIRE_TRANSFER(0.10f), CREDIT_CARD(0.15f);

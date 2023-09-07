@@ -1,6 +1,6 @@
 package gr.codelearn.spring.showcase.app.repository;
 
-import gr.codelearn.spring.showcase.app.model.Order;
+import gr.codelearn.spring.showcase.app.domain.Order;
 import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 import gr.codelearn.spring.showcase.app.transfer.PurchasesPerCustomerCategoryDto;
 import org.springframework.data.jpa.repository.JpaRepository;

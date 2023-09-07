@@ -1,9 +1,9 @@
 package gr.codelearn.spring.showcase.app.bootstrap;
 
 import gr.codelearn.spring.showcase.app.base.BaseComponent;
-import gr.codelearn.spring.showcase.app.model.Customer;
-import gr.codelearn.spring.showcase.app.model.Order;
-import gr.codelearn.spring.showcase.app.model.PaymentMethod;
+import gr.codelearn.spring.showcase.app.domain.Customer;
+import gr.codelearn.spring.showcase.app.domain.Order;
+import gr.codelearn.spring.showcase.app.domain.PaymentMethod;
 import gr.codelearn.spring.showcase.app.service.CustomerService;
 import gr.codelearn.spring.showcase.app.service.OrderService;
 import gr.codelearn.spring.showcase.app.service.ProductService;

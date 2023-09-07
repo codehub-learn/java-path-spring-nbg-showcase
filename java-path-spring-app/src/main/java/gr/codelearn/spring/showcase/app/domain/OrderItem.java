@@ -1,9 +1,8 @@
-package gr.codelearn.spring.showcase.app.model;
+package gr.codelearn.spring.showcase.app.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -24,22 +23,24 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PRODUCTS", indexes = {@Index(columnList = "serial")})
-@SequenceGenerator(name = "idGenerator", sequenceName = "PRODUCTS_SEQ", initialValue = 1, allocationSize = 1)
-public class Product extends BaseModel {
+@Table(name = "ORDER_ITEMS")
+@SequenceGenerator(name = "idGenerator", sequenceName = "ORDER_ITEMS_SEQ", initialValue = 1, allocationSize = 1)
+public class OrderItem extends BaseModel {
+	@ToString.Exclude
 	@NotNull
-	@Column(length = 30, nullable = false, unique = true)
-	private String serial;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private Product product;
+
+	@ToString.Exclude
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private Order order;
 
 	@NotNull
-	@Column(length = 50, nullable = false)
-	private String name;
+	@Column(nullable = false)
+	private Integer quantity;
 
 	@NotNull
 	@Column(precision = 10, scale = 2, nullable = false)
 	private BigDecimal price;
-
-	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Category category;
 }

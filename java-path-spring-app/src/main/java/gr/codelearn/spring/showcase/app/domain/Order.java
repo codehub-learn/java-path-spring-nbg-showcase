@@ -1,4 +1,4 @@
-package gr.codelearn.spring.showcase.app.model;
+package gr.codelearn.spring.showcase.app.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

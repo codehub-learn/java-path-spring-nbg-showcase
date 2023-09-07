@@ -1,4 +1,4 @@
-package gr.codelearn.spring.showcase.app.model;
+package gr.codelearn.spring.showcase.app.domain;
 
 import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 import jakarta.persistence.*;
