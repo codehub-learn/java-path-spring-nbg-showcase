@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -100,6 +99,30 @@ public class CategoryController extends BaseController<Category, CategoryResourc
 		return ResponseEntity.ok(
 				ApiResponse.<CategoryResource>builder()
 						   .data(categoryMapper.toFullResource(categoryService.getFullCategory(categoryId)))
+						   .build());
+	}
+
+	@GetMapping(headers = {"Action=getMostPopularCourses"})
+	public ResponseEntity<ApiResponse<List<KeyValue<CourseResource, Long>>>> getMostPopularCourses() {
+		return ResponseEntity.ok(
+				ApiResponse.<List<KeyValue<CourseResource, Long>>>builder()
+						   .data(categoryService.getFiveMostPopularCourses()
+												.stream()
+												.map(kv -> new KeyValue<>(courseMapper.toResource(kv.getKey()),
+																		  kv.getValue()))
+												.toList())
+						   .build());
+	}
+
+	@GetMapping(headers = {"Action=getCoursesWithAverageGrades"})
+	public ResponseEntity<ApiResponse<List<KeyValue<CourseResource, Double>>>> getCoursesWithAverageGrades() {
+		return ResponseEntity.ok(
+				ApiResponse.<List<KeyValue<CourseResource, Double>>>builder()
+						   .data(categoryService.getCoursesWithAverageGrades()
+												.stream()
+												.map(kv -> new KeyValue<>(courseMapper.toResource(kv.getKey()),
+																		  kv.getValue()))
+												.toList())
 						   .build());
 	}
 }

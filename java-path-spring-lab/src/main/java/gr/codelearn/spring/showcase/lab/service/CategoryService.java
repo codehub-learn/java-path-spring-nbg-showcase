@@ -19,4 +19,8 @@ public interface CategoryService extends BaseService<Category, Long> {
 	void updateCourse(Long categoryId, Long courseId, Course course);
 
 	void deleteCourse(Long categoryId, Long courseId);
+
+	List<KeyValue<Course, Long>> getFiveMostPopularCourses();
+
+	List<KeyValue<Course, Double>> getCoursesWithAverageGrades();
 }

@@ -95,4 +95,14 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 		category.getCourses().remove(course);
 		course.setCategory(null);
 	}
+
+	@Override
+	public List<KeyValue<Course, Long>> getFiveMostPopularCourses() {
+		return categoryRepository.getFiveMostPopularCourses();
+	}
+
+	@Override
+	public List<KeyValue<Course, Double>> getCoursesWithAverageGrades() {
+		return categoryRepository.getCoursesWithAverageGrades();
+	}
 }

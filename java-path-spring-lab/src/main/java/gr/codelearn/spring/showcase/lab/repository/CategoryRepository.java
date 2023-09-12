@@ -27,4 +27,20 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 			left join fetch c.courses
 			""")
 	List<Category> findAllCategoriesFull();
+
+	@Query("""
+			select new gr.codelearn.spring.showcase.lab.transfer.KeyValue(e.course, count(*))
+			from Enrollment e
+			group by e.course
+			order by count(*) desc
+			limit 5
+			""")
+	List<KeyValue<Course, Long>> getFiveMostPopularCourses();
+
+	@Query("""
+			select new gr.codelearn.spring.showcase.lab.transfer.KeyValue(e.course, avg(e.grade))
+			from Enrollment e
+			group by e.id
+			""")
+	List<KeyValue<Course, Double>> getCoursesWithAverageGrades();
 }
