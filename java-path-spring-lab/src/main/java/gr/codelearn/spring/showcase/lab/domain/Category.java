@@ -5,10 +5,13 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Set;
+
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @SuperBuilder
-public class BaseModel {
-	private Long id;
+public class Category extends BaseModel {
+	private String name;
+	private Set<Course> courses;
 }
