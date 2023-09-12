@@ -32,6 +32,7 @@
 		<module>java-path-core-recap</module>
 		<module>java-path-spring-core</module>
 		<module>java-path-spring-app</module>
+        <module>java-path-spring-lab</module>
 	</modules>
 
 	<!-- Properties/Variables -->
