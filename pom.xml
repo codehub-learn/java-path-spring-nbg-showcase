@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.3</version>
+		<version>3.1.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -32,7 +32,7 @@
 		<module>java-path-core-recap</module>
 		<module>java-path-spring-core</module>
 		<module>java-path-spring-app</module>
-        <module>java-path-spring-lab</module>
+		<module>java-path-spring-lab</module>
 	</modules>
 
 	<!-- Properties/Variables -->
